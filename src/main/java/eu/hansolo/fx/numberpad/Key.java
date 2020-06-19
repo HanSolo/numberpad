@@ -16,14 +16,19 @@
 
 package eu.hansolo.fx.numberpad;
 
+import javafx.application.ConditionalFeature;
+import javafx.application.Platform;
 import javafx.beans.DefaultProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -55,6 +60,8 @@ public class Key<T> extends Region {
     private              String                                            keyText;
     private              T                                                 _metaData;
     private              ObjectProperty<T>                                 metaData;
+    private              EventHandler<MouseEvent>                          mouseHandler;
+    private              EventHandler<TouchEvent>                          touchHandler;
 
 
     // ******************** Constructors **************************************
@@ -65,9 +72,25 @@ public class Key<T> extends Region {
         this(keyText, null);
     }
     public Key(final String keyText, final T metaData) {
-        this.observers = new ConcurrentHashMap<>();
-        this.keyText   = null == keyText ? "" : keyText;
-        this._metaData = metaData;
+        this.observers    = new ConcurrentHashMap<>();
+        this.keyText      = null == keyText ? "" : keyText;
+        this._metaData    = metaData;
+        this.mouseHandler = e -> {
+            EventType<? extends MouseEvent> type = e.getEventType();
+            if (MouseEvent.MOUSE_PRESSED.equals(type)) {
+                fireKeyEvent(new KeyEvent(Key.this, KeyEventType.PRESSED));
+            } else if (MouseEvent.MOUSE_RELEASED.equals(type)) {
+                fireKeyEvent(new KeyEvent(Key.this, KeyEventType.RELEASED));
+            }
+        };
+        this.touchHandler = e -> {
+            EventType<? extends TouchEvent> type  = e.getEventType();
+            if (TouchEvent.TOUCH_PRESSED.equals(type)) {
+                fireKeyEvent(new KeyEvent(Key.this, KeyEventType.PRESSED));
+            } else if (TouchEvent.TOUCH_RELEASED.equals(type)) {
+                fireKeyEvent(new KeyEvent(Key.this, KeyEventType.RELEASED));
+            }
+        };
         initGraphics();
         registerListeners();
     }
@@ -97,8 +120,13 @@ public class Key<T> extends Region {
     private void registerListeners() {
         widthProperty().addListener(o -> resize());
         heightProperty().addListener(o -> resize());
-        addEventFilter(MouseEvent.MOUSE_PRESSED, e -> fireKeyEvent(new KeyEvent(Key.this, KeyEventType.PRESSED)));
-        addEventFilter(MouseEvent.MOUSE_RELEASED, e -> fireKeyEvent(new KeyEvent(Key.this, KeyEventType.RELEASED)));
+        if (Platform.isSupported(ConditionalFeature.INPUT_MULTITOUCH)) {
+            addEventHandler(TouchEvent.TOUCH_PRESSED, touchHandler);
+            addEventHandler(TouchEvent.TOUCH_RELEASED, touchHandler);
+        } else {
+            addEventHandler(MouseEvent.MOUSE_PRESSED, mouseHandler);
+            addEventHandler(MouseEvent.MOUSE_RELEASED, mouseHandler);
+        }
     }
 
 
