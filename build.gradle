@@ -65,6 +65,16 @@ task Demo(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+
+// Supress javadoc warnings
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
 jar {
     manifest {
         attributes(
@@ -85,7 +95,6 @@ jar {
         )
     }
 }
-
 
 jlink {
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
