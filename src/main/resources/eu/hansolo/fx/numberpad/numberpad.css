@@ -1,0 +1,6 @@
+.number-pad {
+    -fx-padding               : 5;
+    -fx-background-color      : linear-gradient(to bottom, rgb(38,38,38) 0%,rgb(29,29,29) 100%);
+    -fx-outer-border          : rgb(18, 18, 18);
+    -fx-shadow-highlight-color: transparent;
+}

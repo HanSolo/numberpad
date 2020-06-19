@@ -1,0 +1,51 @@
+/*
+ * Copyright (c) 2020 by Gerrit Grunwald
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.key {
+    -text-foreground-color    : white;
+    -fx-outer-border          : rgb(18, 18, 18);
+    -fx-shadow-highlight-color: black;
+    -fx-background-color      : -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-radius     : 5, 4, 3, 2;
+    -fx-background-insets     : 0, 1, 2, 3;
+    -fx-alignment             : center;
+    -fx-effect                : dropshadow(two-pass-box, rgba(0, 0, 0, 0.5), 2, 0, 0, 2);
+    -fx-outer-border          : linear-gradient(to bottom, #9b9d9f 0%, #606467 1%, #535759 50%, #3d4144 100%);
+    -fx-inner-border          : linear-gradient(to bottom, #555b5e 0%, #555b5e 50%, #555b5e 100%);
+    -fx-body-color            : linear-gradient(to bottom, #4c5154 0%, #666b6e 100%);
+}
+.key:hover {
+    -fx-outer-border          : linear-gradient(to bottom, derive(#9b9d9f, 15%) 0%, derive(#606467, 15%) 1%, derive(#535759, 15%) 50%, derive(#3d4144, 15%) 100%);
+    -fx-inner-border          : linear-gradient(to bottom, derive(#555b5e, 15%) 0%, derive(#555b5e, 15%) 50%, derive(#555b5e, 15%) 100%);
+    -fx-body-color            : linear-gradient(to bottom, derive(#4c5154, 15%) 0%, derive(#666b6e, 15%) 100%);
+}
+.key:pressed {
+    -fx-effect      : dropshadow(two-pass-box, rgba(0, 0, 0, 0.5), 2, 0, 0, 0);
+    -fx-outer-border: linear-gradient(to bottom, #4c4e4f 0%, #323435 1%, #292c2c 50%, #1e2122 100%);
+    -fx-inner-border: linear-gradient(to bottom, #2a2e2f 0%, #2a2e2f 50%, #2a2e2f 100%);
+    -fx-body-color  : linear-gradient(to bottom, #25292a 0%, #323637 100%);
+}
+
+.key .text {
+    -fx-fill: -text-foreground-color;
+}
+.key:hover .text {
+    -fx-fill: -text-foreground-color;
+}
+.key:pressed .text {
+    -fx-fill       : -text-foreground-color;
+    -fx-translate-y: 1px;
+}
