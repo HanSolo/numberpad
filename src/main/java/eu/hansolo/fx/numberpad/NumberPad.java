@@ -21,65 +21,51 @@ import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-/**
- * User: hansolo
- * Date: 18.06.20
- * Time: 13:15
- */
-@DefaultProperty("children")
 public class NumberPad extends Region {
-    private static final String   CSS_FILE         = "numberpad.css";
-    private static final double   PREFERRED_WIDTH  = 250;
-    private static final double   PREFERRED_HEIGHT = 250;
-    private static final double   MINIMUM_WIDTH    = 50;
-    private static final double   MINIMUM_HEIGHT   = 50;
-    private static final double   MAXIMUM_WIDTH    = 1024;
-    private static final double   MAXIMUM_HEIGHT   = 1024;
-    private              String   userAgentStyleSheet;
-    private              double   width;
-    private              double   height;
-    private              double   horizontalGap;
-    private              double   verticalGap;
-    private              Key      key0;
-    private              Key      key1;
-    private              Key      key2;
-    private              Key      key3;
-    private              Key      key4;
-    private              Key      key5;
-    private              Key      key6;
-    private              Key      key7;
-    private              Key      key8;
-    private              Key      key9;
-    private              Key      keyDot;
-    private              Key      keyPlus;
-    private              Key      keyMinus;
-    private              Key      keyDel;
-    private              Key      keyBS;
-    private              Key      keyUp;
-    private              Key      keyRight;
-    private              Key      keyDown;
-    private              Key      keyLeft;
-    private              Key      keyEnter;
-    private              Key      keyCancel;
-    private              Key      keyClr;
-
-    private              GridPane pane;
+    private static final String    CSS_FILE         = "numberpad.css";
+    private static final double    PREFERRED_WIDTH  = 250;
+    private static final double    PREFERRED_HEIGHT = 250;
+    private static final double    MINIMUM_WIDTH    = 50;
+    private static final double    MINIMUM_HEIGHT   = 50;
+    private static final double    MAXIMUM_WIDTH    = 1024;
+    private static final double    MAXIMUM_HEIGHT   = 1024;
+    private              String    userAgentStyleSheet;
+    private              double    width;
+    private              double    height;
+    private              double    horizontalGap;
+    private              double    verticalGap;
+    private              Key       key0;
+    private              Key       key1;
+    private              Key       key2;
+    private              Key       key3;
+    private              Key       key4;
+    private              Key       key5;
+    private              Key       key6;
+    private              Key       key7;
+    private              Key       key8;
+    private              Key       key9;
+    private              Key       keyDot;
+    private              Key       keyPlus;
+    private              Key       keyMinus;
+    private              Key       keyDel;
+    private              Key       keyBS;
+    private              Key       keyUp;
+    private              Key       keyRight;
+    private              Key       keyDown;
+    private              Key       keyLeft;
+    private              Key       keyEnter;
+    private              Key       keyCancel;
+    private              Key       keyClr;
+    private              List<Key> keys;
+    private              GridPane  pane;
 
 
     // ******************** Constructors **************************************
@@ -106,6 +92,8 @@ public class NumberPad extends Region {
         }
 
         getStyleClass().add("number-pad");
+
+        keys = new ArrayList<>();
 
         key0     = createKey("0", KeyCode.NUMPAD0);
         key1     = createKey("1", KeyCode.NUMPAD1);
@@ -177,20 +165,19 @@ public class NumberPad extends Region {
     @Override protected double computeMaxWidth(final double HEIGHT) { return MAXIMUM_WIDTH; }
     @Override protected double computeMaxHeight(final double WIDTH) { return MAXIMUM_HEIGHT; }
 
-    @Override public ObservableList<Node> getChildren() { return super.getChildren(); }
 
     public void setOnKeyPressed(final KeyEventObserver observer) {
-        pane.getChildren().stream().map(node -> (Key) node).forEach(key -> key.setOnKeyPressed(observer));
+        keys.forEach(key -> key.setOnKeyPressed(observer));
     }
     public void removeOnKeyPressed(final KeyEventObserver observer) {
-        pane.getChildren().stream().map(node -> (Key) node).forEach(key -> key.removeOnKeyPressed(observer));
+        keys.forEach(key -> key.removeOnKeyPressed(observer));
     }
 
     public void setOnKeyReleased(final KeyEventObserver observer) {
-        pane.getChildren().stream().map(node -> (Key) node).forEach(key -> key.setOnKeyReleased(observer));
+        keys.forEach(key -> key.setOnKeyReleased(observer));
     }
     public void removeOnKeyReleased(final KeyEventObserver observer) {
-        pane.getChildren().stream().map(node -> (Key) node).forEach(key -> key.removeOnKeyReleased(observer));
+        keys.forEach(key -> key.removeOnKeyReleased(observer));
     }
 
     public double getHorizontalGap() { return horizontalGap; }
@@ -214,6 +201,7 @@ public class NumberPad extends Region {
         if (null != styleClass && !styleClass.isEmpty()) { key.getStyleClass().add(styleClass); }
         GridPane.setHalignment(key, HPos.CENTER);
         GridPane.setValignment(key, VPos.CENTER);
+        keys.add(key);
         return key;
     }
 
