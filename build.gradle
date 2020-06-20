@@ -62,14 +62,11 @@ task Demo(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
-
-// Supress javadoc warnings
-if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
-        tasks.withType(Javadoc) {
-            options.addStringOption('Xdoclint:none', '-quiet')
-        }
-    }
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+    withJavadocJar()
+    withSourcesJar()
 }
 
 jar {
@@ -100,18 +97,6 @@ jlink {
     }
 }
 
-// create one jar for the javadoc
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    archiveClassifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-// create one jar for the source files
-task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier = 'sources'
-    from sourceSets.main.allSource
-}
-
 artifacts {
     archives jar
     archives javadocJar
@@ -120,8 +105,6 @@ artifacts {
 
 def pomConfig = {
     name 'numberpad'
-    // Description won't be used when creating the pom file automatically.
-    // So I've added it manually in the pom.withXml{} section in the publishing task
     url 'https://github.com/HanSolo/numberpad/wiki'
     inceptionYear '2020'
     licenses {
@@ -156,6 +139,12 @@ publishing {
                 asNode().appendNode('description', description)
             }
         }
+    }
+}
+// Supress javadoc warnings
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
     }
 }
 
