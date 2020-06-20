@@ -20,14 +20,13 @@ plugins {
     id 'idea'
     id 'java-library'
     id 'com.google.osdetector' version '1.6.2'
-    id 'org.javamodularity.moduleplugin' version '1.6.0'
-    id 'org.beryx.jlink' version '2.17.2'
+    id 'org.javamodularity.moduleplugin' version '1.7.0'
+    id 'org.beryx.jlink' version '2.20.0'
     id 'maven-publish'
-    id 'net.nemerosa.versioning' version '2.10.0'
+    id 'net.nemerosa.versioning' version '2.13.2'
     id 'com.jfrog.bintray' version '1.8.5'
+    id 'biz.aQute.bnd.builder' version '5.1.1'
 }
-
-apply plugin: 'biz.aQute.bnd.builder'
 
 wrapper {
     gradleVersion = '6.5'
