@@ -23,11 +23,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 
-/**
- * User: hansolo
- * Date: 18.06.20
- * Time: 10:21
- */
 public class Demo extends Application {
     private NumberPad numberPad;
 

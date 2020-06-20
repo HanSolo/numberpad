@@ -18,15 +18,12 @@ package eu.hansolo.fx.numberpad;
 
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
-import javafx.beans.DefaultProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.Region;
@@ -36,12 +33,6 @@ import javafx.scene.text.Text;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-/**
- * User: hansolo
- * Date: 2020-06-18
- * Time: 10:18
- */
-@DefaultProperty("children")
 public class Key<T> extends Region {
     private static final String                                            CSS_FILE         = "key.css";
     private static final double                                            PREFERRED_WIDTH  = 128;
@@ -137,8 +128,6 @@ public class Key<T> extends Region {
     @Override protected double computePrefHeight(final double WIDTH) { return super.computePrefHeight(WIDTH); }
     @Override protected double computeMaxWidth(final double HEIGHT)  { return MAXIMUM_WIDTH; }
     @Override protected double computeMaxHeight(final double WIDTH)  { return MAXIMUM_HEIGHT; }
-
-    @Override public ObservableList<Node> getChildren() { return super.getChildren(); }
 
     public String getKeyText() { return text.getText(); }
     public void setText(final String text) { this.text.setText(text); }
